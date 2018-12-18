@@ -8,27 +8,41 @@ import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import {SQLite} from "@ionic-native/sqlite";
+import { TasksServiceProvider } from '../providers/tasks-service/tasks-service';
+import {FrmParametrosPage} from "../pages/frm-parametros/frm-parametros";
+import {HttpClientModule} from "@angular/common/http";
+import { DataParamProvider } from '../providers/data-param/data-param';
+import {RegPedidosPage} from "../pages/reg-pedidos/reg-pedidos";
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    FrmParametrosPage,
+    RegPedidosPage
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    FrmParametrosPage,
+    RegPedidosPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    SQLite,
+    TasksServiceProvider,
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    DataParamProvider,
   ]
 })
 export class AppModule {}

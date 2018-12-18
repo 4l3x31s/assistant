@@ -5,6 +5,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
+import {SQLite} from "@ionic-native/sqlite";
+import {FrmParametrosPage} from "../pages/frm-parametros/frm-parametros";
+import {TasksServiceProvider} from "../providers/tasks-service/tasks-service";
 
 @Component({
   templateUrl: 'app.html'
@@ -16,15 +19,36 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(
+    public platform: Platform,
+    public statusBar: StatusBar,
+    public splashScreen: SplashScreen,
+    public sqlite: SQLite,
+    public taskService: TasksServiceProvider
+  ) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage }
+      { title: 'List', component: ListPage },
+      { title: 'Ajustes', component: FrmParametrosPage}
     ];
 
+  }
+  private createDataBase(){
+    this.sqlite.create({
+      name: 'data.db',
+      location: 'default'
+    })
+      .then((db) => {
+      this.taskService.setDatabase(db);
+        console.log(db);
+        this.taskService.createTables();
+      })
+      .catch( error => {
+        console.log(error);
+      })
   }
 
   initializeApp() {
@@ -32,7 +56,9 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
+      this.statusBar.backgroundColorByHexString('#38006b');
       this.splashScreen.hide();
+      this.createDataBase();
     });
   }
 

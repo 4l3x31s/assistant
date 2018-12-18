@@ -1,5 +1,7 @@
 {
   "name": "assistant",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic-angular"
 }

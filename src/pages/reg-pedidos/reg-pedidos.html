@@ -1,0 +1,87 @@
+<!--
+  Generated template for the RegPedidosPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="morado">
+    <ion-title>regPedidos</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form [formGroup]="formulario" (ngSubmit)="registrarPedidos()" novalidate>
+    <ion-list>
+
+      <ion-label>Marca</ion-label>
+      <ion-select [(ngModel)]="txtMarca" *ngFor="let marca of marcas" formControlName="txtMarca">
+        <ion-option value="{{marca.desc_marca}}">{{marca.desc_marca}}</ion-option>
+      </ion-select>
+      <ion-item *ngIf="formulario.get('txtMarca').errors && formulario.get('txtMarca').dirty">
+        <p color="danger" ion-text *ngIf="formulario.get('txtMarca').hasError('required')">El campo es requerido</p>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Codigo</ion-label>
+        <ion-input type="text" formControlName="txtCodigo" [(ngModel)]="txtCodigo"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="formulario.get('txtCodigo').errors && formulario.get('txtCodigo').dirty">
+        <p color="danger" ion-text *ngIf="formulario.get('txtCodigo').hasError('required')">El campo es requerido</p>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Item</ion-label>
+        <ion-input type="text" [(ngModel)]="txtItem" formControlName="txtItem"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="formulario.get('txtItem').errors && formulario.get('txtItem').dirty">
+        <p color="danger" ion-text *ngIf="formulario.get('txtItem').hasError('required')">El campo es requerido</p>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Cantidad</ion-label>
+        <ion-input type="number" [(ngModel)]="txtCantidad" formControlName="txtCantidad"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="formulario.get('txtCantidad').errors && formulario.get('txtCantidad').dirty">
+        <p color="danger" ion-text *ngIf="formulario.get('txtCantidad').hasError('required')">El campo es requerido</p>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Precio</ion-label>
+        <ion-input type="number" [(ngModel)]="txtPrecio" formControlName="txtPrecio"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="formulario.get('txtPrecio').errors && formulario.get('txtPrecio').dirty">
+        <p color="danger" ion-text *ngIf="formulario.get('txtPrecio').hasError('required')">El campo es requerido</p>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Precio con Descuento</ion-label>
+        <ion-input type="number" readonly [(ngModel)]="txtPrecioDescuento"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Precio Total Bs.</ion-label>
+        <ion-input type="number" readonly [(ngModel)]="txtPrecioTotalBs"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Nombre</ion-label>
+        <ion-input type="text" [(ngModel)]="txtNombre" formControlName="txtNombre"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="formulario.get('txtNombre').errors && formulario.get('txtNombre').dirty">
+        <p color="danger" ion-text *ngIf="formulario.get('txtNombre').hasError('required')">El campo es requerido</p>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Observacion</ion-label>
+        <ion-input type="text" [(ngModel)]="txtObservacion" formControlName="txtObservacion"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="formulario.get('txtObservacion').errors && formulario.get('txtObservacion').dirty">
+        <p color="danger" ion-text *ngIf="formulario.get('txtObservacion').hasError('required')">El campo es requerido</p>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Pago</ion-label>
+        <ion-input type="text" [(ngModel)]="txtPago" formControlName="txtPago"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="formulario.get('txtPago').errors && formulario.get('txtPago').dirty">
+        <p color="danger" ion-text *ngIf="formulario.get('txtPago').hasError('required')">El campo es requerido</p>
+      </ion-item>
+    </ion-list>
+    <button ion-button block color="moradoClaro" type="submit" [disabled]="formulario.invalid">Registar Pedido</button>
+  </form>
+</ion-content>
