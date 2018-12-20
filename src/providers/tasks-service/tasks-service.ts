@@ -41,7 +41,8 @@ export class TasksServiceProvider {
                     precio_total_bs NUMERIC,
                     nombre INTEGER,
                     observacion TEXT,
-                    estado_pago TEXT
+                    estado_pago TEXT,
+                    pagina INTEGER
                     );`;
     this.db.executeSql(sqlPedido, []);
     let sqlMarcas = `CREATE TABLE marcas
@@ -151,6 +152,7 @@ export class TasksServiceProvider {
       nombre= ?,
       observacion= ?,
       estado_pago= ?
+      pagina = ?
       WHERE id_pedido = ?`;
     return this.db.executeSql(sql, [
       objPedidos.desc_marca,
@@ -163,6 +165,7 @@ export class TasksServiceProvider {
       objPedidos.nombre,
       objPedidos.observacion,
       objPedidos.estado_pago,
+      objPedidos.pagina,
       objPedidos.id_pedido
     ]);
   }

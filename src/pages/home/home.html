@@ -3,11 +3,57 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-title>Lista de Pedidos</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+  <ion-card *ngFor="let pedido of lstPedidos">
+    <ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <h2>{{pedido.nombre}} - {{pedido.desc_marca}}</h2>
+          </ion-col>
+          <ion-col>
+            <b>Item - </b>{{pedido.item}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <b>Codigo: </b>{{pedido.codigo}}
+          </ion-col>
+          <ion-col>
+            <b>Pago: </b>{{pedido.estado_pago}}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+
+    </ion-item>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <b>Cantidad:</b>{{pedido.cantidad}}
+          </ion-col>
+          <ion-col>
+            <b>Precio:</b>{{pedido.precio}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <b>Precio Descuento:</b>{{pedido.precio_con_desc}}
+          </ion-col>
+          <ion-col>
+            <b>Total Bolivianos:</b>{{pedido.precio_total_bs}}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+
   <ion-fab right bottom>
     <button ion-fab color="moradoClaro" (click)="irNuevoPedido()"><ion-icon name="add"></ion-icon></button>
   </ion-fab>

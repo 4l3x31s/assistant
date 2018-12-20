@@ -18,7 +18,10 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
   templateUrl: 'reg-pedidos.html',
 })
 export class RegPedidosPage {
-  formulario: FormGroup;
+  myForm: FormGroup;
+  tc: number = 6.96;
+  descuento: number = 12;
+
 
   public pedidos: Pedidos;
   public marcas: Marcas[] = [];
@@ -27,9 +30,9 @@ export class RegPedidosPage {
   public txtCodigo: string;
   public txtItem: string;
   public txtCantidad: number;
-  public txtPrecio: number;
-  public txtPrecioDescuento: number;
-  public txtPrecioTotalBs: number;
+  public txtPrecio: number = 0;
+  public txtPrecioDescuento: number = 0;
+  public txtPrecioTotalBs: number = 0;
   public txtNombre: string;
   public txtObservacion: string;
   public txtPago: string;
@@ -40,18 +43,18 @@ export class RegPedidosPage {
               public taskService: TasksServiceProvider,
               public alertCtrl: AlertController,
               public loadingCtrl: LoadingController,
-              public fb: FormBuilder) {
-    this.formulario = this.fb.group({
-      txtMarca: ['', [Validators.required]],
-      txtCodigo: ['', [Validators.required]],
-      txtItem: ['', [Validators.required]],
-      txtCantidad:['', [Validators.required]],
-      txtPrecio:['', [Validators.required]],
-      txtPrecioDescuento:['', [Validators.required]],
-      txtPrecioTotalBs: ['', [Validators.required]],
-      txtNombre: ['', [Validators.required]],
-      txtObservacion: ['', [Validators.required]],
-      txtPago: ['', [Validators.required]]
+                public fb: FormBuilder) {
+
+    this.myForm = this.fb.group({
+      vpagina: ['', [Validators.required]],
+      vmarca: ['', [Validators.required]],
+      vcodigo: ['', [Validators.required]],
+      vitem: ['', [Validators.required]],
+      vcantidad:['', [Validators.required]],
+      vprecio:['', [Validators.required]],
+      vnombre: ['', [Validators.required]],
+      vobservacion: ['', [Validators.required]],
+      vpago: ['', [Validators.required]]
     })
   }
 
@@ -61,6 +64,19 @@ export class RegPedidosPage {
 
   }
   registrarPedidos() {
+    console.log(this.myForm);
+    this.txtMarca = this.myForm.value.vmarca;
+      this.txtMarca = this.myForm.value.vmarca;
+      this.txtCodigo = this.myForm.value.vcodigo;
+      this.txtItem = this.myForm.value.vitem;
+      this.txtCantidad = this.myForm.value.vcantidad;
+      this.txtPrecio = this.myForm.value.vprecio;
+      this.txtNombre = this.myForm.value.vnombre;
+      this.txtObservacion = this.myForm.value.vobservacion;
+      this.txtPago = this.myForm.value.vpago;
+      this.txtPrecioDescuento = this.redondear((this.txtPrecio - ((this.txtPrecio * this.descuento)/100)),2);
+      this.txtPrecioTotalBs =  this.redondear((this.txtPrecioDescuento * this.txtCantidad) * this.tc, 2);
+
     this.pedidos = new Pedidos(this.txtMarca,
                                this.txtCodigo,
                                this.txtItem,
@@ -76,6 +92,7 @@ export class RegPedidosPage {
         //TODO:INSERCION
         console.log(response);
         this.mostrarAlert('Registro de Pedido', 'Se ha registrado correctamente el pedido');
+        this.navCtrl.pop();
 
       })
       .catch(error => {
@@ -83,8 +100,18 @@ export class RegPedidosPage {
         this.mostrarAlert('Error registro', 'No se ha podido registrar el pedido')
       })
   }
+  redondear(value: number, decimals: number){
+    var multiplier = Math.pow(10,decimals ||0);
+    return Math.round(value * multiplier) / multiplier;
+  }
 
   obtenerMarcas(){
+    this.marcas = [
+      new Marcas('ESIKA',1),
+      new Marcas('LEBEL',1),
+      new Marcas('CYZONE',1),
+      new Marcas('TUPPERWARE', 1)
+    ];
     this.presentLoading();
     this.taskService.obtMarcas()
       .then( response => {

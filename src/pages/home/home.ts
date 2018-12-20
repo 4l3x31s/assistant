@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import {AlertController, NavController} from 'ionic-angular';
 import {TasksServiceProvider} from "../../providers/tasks-service/tasks-service";
 import {Parametros} from "../../class/parametros";
 import {Pedidos} from "../../class/pedidos";
@@ -15,12 +15,33 @@ export class HomePage {
   public pedidos: Pedidos;
   public lstParams: Parametros[];
   constructor(public navCtrl: NavController,
-              public taskService: TasksServiceProvider) {
+              public taskService: TasksServiceProvider,
+              public alertCtrl: AlertController) {
+    this.listarProductos();
+
+  }
+  ionViewDidLoad(){
     this.obtenerParametros();
 
   }
+  ionViewWillEnter(){
+    this.listarProductos();
+  }
+  listarProductos(){
+    this.taskService.obtTodosPedidos()
+      .then(listaPedidos => {
+        this.lstPedidos = listaPedidos;
+        console.log(this.lstPedidos);
 
-
+        if(!this.lstPedidos && this.lstPedidos.length==0){
+          this.mostrarAlert('Error', 'No tenemos datos en la lista');
+          this.navCtrl.push(RegPedidosPage, {parametros: this.lstParams});
+        }
+      })
+      .catch(error => {
+        this.mostrarAlert('Error', 'No pudimos obtener los pedidos')
+      })
+  }
   obtenerParametros(){
 
     this.taskService.allParametros()
@@ -61,6 +82,15 @@ export class HomePage {
   irNuevoPedido(){
     this.navCtrl.push(RegPedidosPage, {parametros: this.lstParams});
   }
+  mostrarAlert(titulo: string, mensaje: string){
+    const alert = this.alertCtrl.create({
+      title: titulo,
+      subTitle: mensaje,
+      buttons: ['Aceptar']
+    });
+    alert.present();
+  }
+
 
 
 }
