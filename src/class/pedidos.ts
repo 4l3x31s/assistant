@@ -1,5 +1,6 @@
 export class Pedidos {
   constructor(
+    public pagina: number,
   public desc_marca:string,
   public codigo :string,
   public item :string,

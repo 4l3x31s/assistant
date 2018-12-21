@@ -17,6 +17,10 @@
   <form [formGroup]="myForm" (ngSubmit)="registrarPedidos()" novalidate>
     <ion-list>
       <ion-item>
+        <ion-label stacked>Numero Página</ion-label>
+        <ion-input type="number" name="vpagina" formControlName="vpagina"></ion-input>
+      </ion-item>
+      <ion-item>
         <ion-label stacked>Marca</ion-label>
         <ion-select formControlName="vmarca">
           <ion-option *ngFor="let marca of marcas" value="{{marca.desc_marca}}">{{marca.desc_marca}}</ion-option>

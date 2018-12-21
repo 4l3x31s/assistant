@@ -32,6 +32,7 @@ export class TasksServiceProvider {
     let sqlPedido = `CREATE TABLE pedidos
                     (
                     id_pedido INTEGER PRIMARY KEY AUTOINCREMENT,
+                    pagina INTEGER,
                     desc_marca TEXT,
                     codigo TEXT,
                     item TEXT,
@@ -42,7 +43,7 @@ export class TasksServiceProvider {
                     nombre INTEGER,
                     observacion TEXT,
                     estado_pago TEXT,
-                    pagina INTEGER
+                    campania TEXT,
                     );`;
     this.db.executeSql(sqlPedido, []);
     let sqlMarcas = `CREATE TABLE marcas
@@ -87,6 +88,30 @@ export class TasksServiceProvider {
     let sql = `DELETE FROM pedidos WHERE id_pedido=?`;
     return this.db.executeSql(sql, [pedido.id_pedido]);
   }
+  getPedidosPorCampania(marca: string, campania: string){
+    let sql = `SELECT * FROM pedidos WHERE marca = ? AND campania = ?`;
+    return this.db.executeSql(sql, [marca,campania])
+      .then(response => {
+        let pedidos = [];
+        for(let i = 0; i< response.rows.length; i ++) {
+          pedidos.push(response.rows.item(i));
+        }
+        return Promise.resolve(pedidos);
+      })
+      .catch(error => Promise.reject(error));
+  }
+  getCampaniasPorMarca(marca: string){
+    let sql = `SELECT * FROM pedidos WHERE marca = ?`;
+    return this.db.executeSql(sql, [marca])
+      .then(response => {
+        let pedidos = [];
+        for(let i = 0; i< response.rows.length; i ++) {
+          pedidos.push(response.rows.item(i));
+        }
+        return Promise.resolve(pedidos);
+      })
+      .catch(error => Promise.reject(error));
+  }
   obtTodosPedidos(){
     let sql = `SELECT * FROM pedidos`;
     return this.db.executeSql(sql, [])
@@ -117,6 +142,7 @@ export class TasksServiceProvider {
   }
   addPedidos<Object>(objPedidos: any) {
     let sql = `INSERT INTO pedidos(
+      pagina,
       desc_marca,
       codigo,
       item,
@@ -126,8 +152,11 @@ export class TasksServiceProvider {
       precio_total_bs,
       nombre,
       observacion,
-      estado_pago) VALUES(?,?,?,?,?,?,?,?,?,?)`;
-    return this.db.executeSql(sql, [objPedidos.desc_marca,
+      estado_pago,
+      campania) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`;
+    return this.db.executeSql(sql, [
+          objPedidos.pagina,
+          objPedidos.desc_marca,
           objPedidos.codigo,
           objPedidos.item,
           objPedidos.cantidad,
@@ -136,7 +165,8 @@ export class TasksServiceProvider {
           objPedidos.precio_total_bs,
           objPedidos.nombre,
           objPedidos.observacion,
-          objPedidos.estado_pago
+          objPedidos.estado_pago,
+          objPedidos.campania
     ]);
   }
   actPedidos(objPedidos) {
@@ -151,8 +181,9 @@ export class TasksServiceProvider {
       precio_total_bs= ?,
       nombre= ?,
       observacion= ?,
-      estado_pago= ?
-      pagina = ?
+      estado_pago= ?,
+      pagina = ?,
+      campania = ?
       WHERE id_pedido = ?`;
     return this.db.executeSql(sql, [
       objPedidos.desc_marca,
@@ -166,6 +197,7 @@ export class TasksServiceProvider {
       objPedidos.observacion,
       objPedidos.estado_pago,
       objPedidos.pagina,
+      objPedidos.campania,
       objPedidos.id_pedido
     ]);
   }

@@ -8,6 +8,78 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        Página
+      </ion-col>
+      <ion-col>
+        Marca
+      </ion-col>
+      <ion-col>
+        Codigo
+      </ion-col>
+      <ion-col>
+        Item
+      </ion-col>
+      <ion-col>
+        Cant
+      </ion-col>
+      <ion-col>
+        Precio
+      </ion-col>
+      <ion-col>
+        T Desc
+      </ion-col>
+      <ion-col>
+        T Desc Bs.
+      </ion-col>
+      <ion-col>
+        Nombre
+      </ion-col>
+      <ion-col>
+        Obs
+      </ion-col>
+      <ion-col>
+        Pago
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let pedido of lstPedidos">
+      <ion-col>
+        Página
+      </ion-col>
+      <ion-col>
+        Marca
+      </ion-col>
+      <ion-col>
+        Codigo
+      </ion-col>
+      <ion-col>
+        Item
+      </ion-col>
+      <ion-col>
+        Cant
+      </ion-col>
+      <ion-col>
+        Precio
+      </ion-col>
+      <ion-col>
+        T Desc
+      </ion-col>
+      <ion-col>
+        T Desc Bs.
+      </ion-col>
+      <ion-col>
+        Nombre
+      </ion-col>
+      <ion-col>
+        Obs
+      </ion-col>
+      <ion-col>
+        Pago
+      </ion-col>
+    </ion-row>
+  </ion-grid>
   <ion-card *ngFor="let pedido of lstPedidos">
     <ion-item>
       <ion-grid>

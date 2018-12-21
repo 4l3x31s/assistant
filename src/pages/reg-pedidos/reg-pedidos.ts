@@ -26,6 +26,7 @@ export class RegPedidosPage {
   public pedidos: Pedidos;
   public marcas: Marcas[] = [];
 
+  public txtPagina: number;
   public txtMarca: string;
   public txtCodigo: string;
   public txtItem: string;
@@ -65,6 +66,7 @@ export class RegPedidosPage {
   }
   registrarPedidos() {
     console.log(this.myForm);
+    this.txtPagina = this.myForm.value.vpagina;
     this.txtMarca = this.myForm.value.vmarca;
       this.txtMarca = this.myForm.value.vmarca;
       this.txtCodigo = this.myForm.value.vcodigo;
@@ -77,7 +79,8 @@ export class RegPedidosPage {
       this.txtPrecioDescuento = this.redondear((this.txtPrecio - ((this.txtPrecio * this.descuento)/100)),2);
       this.txtPrecioTotalBs =  this.redondear((this.txtPrecioDescuento * this.txtCantidad) * this.tc, 2);
 
-    this.pedidos = new Pedidos(this.txtMarca,
+    this.pedidos = new Pedidos(this.txtPagina,
+                               this.txtMarca,
                                this.txtCodigo,
                                this.txtItem,
                                this.txtCantidad,
